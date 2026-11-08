@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1f7a4d">
+<title>RecicloBogotá</title>
+<style>
+/* Diseño: app móvil de una columna, verde institucional sobrio, panel ancho para administración */
+:root{--g:#1f7a4d;--gd:#14573a;--gl:#e4f2ea;--bg:#f5f7f4;--tx:#1d2a22;--mu:#5d6b63;--bd:#d6ddd8;--wa:#b26a00;--er:#b3261e;--bl:#1d5fa8;--card:#fff;
+--btn-bg:#1f7a4d;--btn-tx:#fff;--hd-bg:#1f7a4d;--hd-tx:#fff;--sel:#d9480f;
+--tw-bg:#fff1d6;--tb-bg:#dce9fb;--tg-bg:#d9f1e3;--tn-bg:#eceeed;--tn-tx:#444;--te-bg:#fdecea;--in-bg:#e8f0fb;--in-tx:#17467d;--wa-tx:#6b4500;
+--bn-bg:#fff6e0;--bn-bd:#f0dca8;--map-bg:#eaf3ec;--map-park:#cfe6d5;--map-r1:#fff;--map-r2:#d7dfd9}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--g:#4fb783;--gd:#8fd8b2;--gl:#223a2d;--bg:#111a15;--tx:#e6efe9;--mu:#9fb0a5;--bd:#2d3b32;--wa:#f0b45a;--er:#f2877f;--bl:#7db3f0;--card:#1a251e;
+--btn-bg:#4fb783;--btn-tx:#0e1f16;--hd-bg:#1c4a33;--hd-tx:#e6efe9;--sel:#ff8a50;
+--tw-bg:#3a2d12;--tb-bg:#1c2f47;--tg-bg:#1d3b2b;--tn-bg:#2a322d;--tn-tx:#c5d0c9;--te-bg:#3d1f1c;--in-bg:#1c2f47;--in-tx:#a9cdf5;--wa-tx:#f3d9a0;
+--bn-bg:#2e2610;--bn-bd:#4a3d1a;--map-bg:#1b2a21;--map-park:#24392c;--map-r1:#33443a;--map-r2:#2a3a30;color-scheme:dark}}
+:root[data-theme="dark"]{--g:#4fb783;--gd:#8fd8b2;--gl:#223a2d;--bg:#111a15;--tx:#e6efe9;--mu:#9fb0a5;--bd:#2d3b32;--wa:#f0b45a;--er:#f2877f;--bl:#7db3f0;--card:#1a251e;
+--btn-bg:#4fb783;--btn-tx:#0e1f16;--hd-bg:#1c4a33;--hd-tx:#e6efe9;--sel:#ff8a50;
+--tw-bg:#3a2d12;--tb-bg:#1c2f47;--tg-bg:#1d3b2b;--tn-bg:#2a322d;--tn-tx:#c5d0c9;--te-bg:#3d1f1c;--in-bg:#1c2f47;--in-tx:#a9cdf5;--wa-tx:#f3d9a0;
+--bn-bg:#2e2610;--bn-bd:#4a3d1a;--map-bg:#1b2a21;--map-park:#24392c;--map-r1:#33443a;--map-r2:#2a3a30;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx);line-height:1.45}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--hd-bg);z-index:10}
+a{color:var(--bl)}
+#app{max-width:520px;margin:0 auto;min-height:100vh;padding-bottom:84px}
+#app.wide{max-width:980px}
+header.top{background:var(--hd-bg);color:var(--hd-tx);padding:14px max(16px,env(safe-area-inset-left,0px));display:flex;align-items:center;justify-content:space-between;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+header.top h1{font-size:18px;margin:0}
+header.top small{opacity:.85;display:block;font-size:12px}
+header.top button{background:transparent;border:1px solid currentColor;color:inherit;border-radius:8px;padding:6px 10px;font-size:13px;opacity:.9}
+.banner{background:var(--bn-bg);color:var(--wa-tx);font-size:12.5px;padding:8px max(16px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--bn-bd)}
+main{padding:14px max(16px,env(safe-area-inset-left,0px)) 14px max(16px,env(safe-area-inset-left,0px))}
+h2{font-size:18px;margin:6px 0 10px;text-wrap:balance}
+h3{font-size:15px;margin:14px 0 6px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 14px;margin-bottom:10px;min-width:0}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.muted{color:var(--mu);font-size:13px}
+label{display:block;font-size:13px;font-weight:600;margin:10px 0 4px}
+input,select,textarea{width:100%;padding:10px;border:1px solid var(--bd);border-radius:8px;font-size:15px;background:var(--card);color:var(--tx);font-family:inherit}
+input[type=checkbox]{width:auto}
+.chk{display:flex;gap:8px;align-items:flex-start;font-weight:400;margin:6px 0}
+.btn{background:var(--btn-bg);color:var(--btn-tx);border:0;border-radius:10px;padding:11px 14px;font-size:15px;font-weight:600;cursor:pointer}
+.btn.sec{background:var(--gl);color:var(--gd)}
+.btn.warn{background:var(--te-bg);color:var(--er)}
+.btn.sm{padding:6px 10px;font-size:13px;border-radius:8px}
+.btn.full{width:100%;margin-top:12px}
+.btn:disabled{opacity:.5}
+:focus-visible{outline:3px solid var(--bl);outline-offset:2px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.chip{border:1px solid var(--bd);background:var(--card);border-radius:999px;padding:5px 11px;font-size:13px;cursor:pointer}
+.chip.on{background:var(--btn-bg);border-color:var(--btn-bg);color:var(--btn-tx)}
+.tag{display:inline-block;border-radius:6px;padding:2px 8px;font-size:12px;font-weight:600}
+.t-Pendiente{background:var(--tw-bg);color:var(--wa)}
+.t-Aceptada{background:var(--tb-bg);color:var(--bl)}
+.t-Completada{background:var(--tg-bg);color:var(--gd)}
+.t-Rechazada,.t-Cancelada,.t-Sin{background:var(--tn-bg);color:var(--tn-tx)}
+.t-Bloqueado{background:var(--te-bg);color:var(--er)}
+nav.bottom{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--bd);display:flex;justify-content:center;z-index:6;padding-bottom:env(safe-area-inset-bottom,0px)}
+nav.bottom .in{display:flex;width:100%;max-width:520px}
+#app.wide~nav.bottom .in{max-width:980px}
+nav.bottom button{flex:1;background:none;border:0;padding:10px 4px 12px;font-size:12px;color:var(--mu);cursor:pointer}
+nav.bottom button b{display:block;font-size:19px;font-weight:400}
+nav.bottom button.on{color:var(--g);font-weight:700}
+.map{width:100%;border-radius:12px;border:1px solid var(--bd);display:block}
+.m-bg{fill:var(--map-bg)}.m-park{fill:var(--map-park)}.m-r1{stroke:var(--map-r1);fill:none;stroke-width:9;stroke-linecap:round}.m-r2{stroke:var(--map-r2);fill:none;stroke-width:2}.m-tx{fill:var(--mu);font-size:10px}
+.pin path{fill:var(--g)}
+.pin circle{fill:var(--card)}
+.pin.sel path{fill:var(--sel)}
+.pin{cursor:pointer}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:10px}
+.kpi{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px}
+.kpi b{font-size:24px;display:block;font-variant-numeric:tabular-nums}
+.bar{height:10px;background:var(--gl);border-radius:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--g)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+td,th{padding:7px 6px;border-bottom:1px solid var(--bd);text-align:left;vertical-align:top}
+.alert{padding:10px 12px;border-radius:10px;font-size:14px;margin:8px 0}
+.alert.ok{background:var(--tg-bg);color:var(--gd)}
+.alert.er{background:var(--te-bg);color:var(--er)}
+.alert.in{background:var(--in-bg);color:var(--in-tx)}
+.alert.wa{background:var(--tw-bg);color:var(--wa-tx)}
+.brand{text-align:center;padding:26px 0 6px}
+.brand .logo{font-size:44px}
+.brand h1{margin:2px 0;color:var(--gd)}
+details summary{cursor:pointer;font-size:13px;color:var(--bl)}
+.cols{display:grid;grid-template-columns:1fr;gap:10px}
+#app.wide .cols{grid-template-columns:1fr 1fr}
+.scroll{overflow-x:auto}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<nav class="bottom" id="nav" hidden><div class="in" id="navin"></div></nav>
+
+<script>
+/* ===================== Datos base ===================== */
+const LS = 'recicloBogota_v1';
+const LOCALIDADES = ['Teusaquillo', 'Chapinero', 'Kennedy', 'Suba'];
+const PILOTO = 'Teusaquillo';
+const MATERIALES = ['Papel y cartón', 'Plástico', 'Vidrio', 'Metal', 'Tetra Pak'];
+const DIAS = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+const FRANJAS = ['Mañana', 'Tarde'];
+const MAX_ACTIVAS = 3;       // medida antifraude del MVP: tope de solicitudes activas por usuario
+const HORAS_VENCE = 48;      // una solicitud sin aceptar pasa a "Sin atender" tras 48 h
+
+const PUNTOS = [
+  {id:'p1',nombre:'Punto de acopio Parkway',loc:'Teusaquillo',dir:'Calle 39 # 24-10',hor:'Lun a Sáb, 8:00 a 17:00',mats:['Papel y cartón','Plástico','Vidrio','Metal'],x:95,y:115},
+  {id:'p2',nombre:'Ecopunto Galerías',loc:'Teusaquillo',dir:'Carrera 24 # 53-30',hor:'Lun a Vie, 9:00 a 18:00',mats:['Plástico','Tetra Pak','Metal'],x:235,y:85},
+  {id:'p3',nombre:'Acopio comunitario Teusaquillo',loc:'Teusaquillo',dir:'Av. Caracas # 34-20',hor:'Mar, Jue y Sáb, 8:00 a 14:00',mats:['Papel y cartón','Vidrio'],x:170,y:185},
+  {id:'p4',nombre:'Punto limpio Chapinero Alto',loc:'Chapinero',dir:'Carrera 7 # 60-15',hor:'Lun a Sáb, 8:00 a 16:00',mats:['Papel y cartón','Plástico','Vidrio'],x:120,y:100},
+  {id:'p5',nombre:'Acopio Calle 72',loc:'Chapinero',dir:'Calle 72 # 10-30',hor:'Lun a Vie, 9:00 a 17:00',mats:['Plástico','Metal','Tetra Pak'],x:250,y:160},
+  {id:'p6',nombre:'Centro de acopio Kennedy Central',loc:'Kennedy',dir:'Carrera 78 # 38-50',hor:'Lun a Sáb, 7:00 a 17:00',mats:['Papel y cartón','Plástico','Vidrio','Metal'],x:140,y:130},
+  {id:'p7',nombre:'Acopio Patio Bonito',loc:'Kennedy',dir:'Calle 38 Sur # 87-15',hor:'Mié a Dom, 8:00 a 15:00',mats:['Papel y cartón','Metal'],x:260,y:90},
+  {id:'p8',nombre:'Punto de acopio Suba Centro',loc:'Suba',dir:'Carrera 91 # 145-20',hor:'Lun a Sáb, 8:00 a 17:00',mats:['Papel y cartón','Plástico','Vidrio','Tetra Pak'],x:110,y:150},
+  {id:'p9',nombre:'Acopio Niza',loc:'Suba',dir:'Calle 127 # 58-10',hor:'Lun a Vie, 9:00 a 16:00',mats:['Plástico','Metal'],x:240,y:105}
+];
+
+const GUIAS = {
+  blanca:{t:'Bolsa blanca · Aprovechables',c:'var(--mu)',txt:'Papel, cartón, plástico, vidrio y metales. Deben ir limpios, secos y, si es posible, aplastados.',ej:['Cajas de cartón','Botellas PET','Frascos de vidrio','Latas']},
+  negra:{t:'Bolsa negra · No aprovechables',c:'var(--tx)',txt:'Residuos que no se pueden reciclar o que están muy sucios.',ej:['Papel higiénico','Servilletas usadas','Colillas','Icopor con comida']},
+  verde:{t:'Bolsa verde · Orgánicos',c:'var(--g)',txt:'Restos de comida y de jardín, que se pueden convertir en compost.',ej:['Cáscaras','Restos de frutas y verduras','Café y filtros','Hojas y poda']}
+};
+
+function seed(){
+  const hoy = Date.now();
+  const disp = (dias,cap,activo=true)=>({dias,franjas:['Mañana','Tarde'],capacidad:cap,activo});
+  const done = (id,uid,mat,kg,loc,rid,dias)=>({id,userId:uid,material:mat,cantidad:kg,kg,direccion:'Dirección de ejemplo',loc,fecha:fch(-dias),franja:'Mañana',estado:'Completada',recicladorId:rid,creada:hoy-dias*864e5,vence:hoy,rechazos:[],motivo:''});
+  return {
+    session:null,
+    seq:100,
+    users:[
+      {id:'u1',nombre:'Laura Gómez',email:'laura@demo.co',pass:'demo123',rol:'ciudadano',tipoGen:'Ciudadano',loc:'Teusaquillo',verificado:true,bloqueado:false},
+      {id:'u2',nombre:'Asociación EcoTeusa',email:'eco@demo.co',pass:'demo123',rol:'reciclador',loc:'Teusaquillo',verificado:true,bloqueado:false,disp:disp([1,2,3,4,5],3)},
+      {id:'u3',nombre:'Recicladores Unidos',email:'unidos@demo.co',pass:'demo123',rol:'reciclador',loc:'Teusaquillo',verificado:false,bloqueado:false,disp:disp([1,3,5],2)},
+      {id:'u4',nombre:'Administrador RecicloBogotá',email:'admin@demo.co',pass:'admin123',rol:'admin',loc:'Teusaquillo',verificado:true,bloqueado:false},
+      {id:'u5',nombre:'Conjunto Los Pinos',email:'pinos@demo.co',pass:'demo123',rol:'ciudadano',tipoGen:'Conjunto residencial',loc:'Teusaquillo',verificado:true,bloqueado:false},
+      {id:'u6',nombre:'Red Recicladores Kennedy',email:'kennedy@demo.co',pass:'demo123',rol:'reciclador',loc:'Kennedy',verificado:true,bloqueado:false,disp:disp([2,4,6],4)}
+    ],
+    requests:[
+      done('r1','u1','Papel y cartón',18,'Teusaquillo','u2',9),
+      done('r2','u5','Plástico',32,'Teusaquillo','u2',6),
+      done('r3','u5','Vidrio',25,'Kennedy','u6',4),
+      done('r4','u1','Metal',12,'Chapinero','u2',2)
+    ],
+    reports:[]
+  };
+}
+function fch(offset=0){const d=new Date(Date.now()+offset*864e5);return d.toISOString().slice(0,10)}
+
+let S = load();
+let ui = {tab:'inicio',loc:PILOTO,mat:'',sel:null,guia:'blanca',msg:null,regRol:'ciudadano',modo:'login',prefill:null,detalle:null};
+
+function load(){try{const s=JSON.parse(localStorage.getItem(LS));if(s&&s.users)return s}catch(e){}return seed()}
+function save(){try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}}
+function uid(p){S.seq++;return p+S.seq}
+const esc = s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const me = ()=>S.users.find(u=>u.id===S.session);
+const user = id=>S.users.find(u=>u.id===id);
+const fmtF = f=>{const d=new Date(f+'T12:00');return DIAS[d.getDay()]+' '+d.getDate()+'/'+(d.getMonth()+1)};
+
+/* ===================== Reglas de negocio ===================== */
+function disponibles(loc,fecha,franja){
+  const dia = new Date(fecha+'T12:00').getDay();
+  return S.users.filter(u=>u.rol==='reciclador'&&u.verificado&&!u.bloqueado&&u.loc===loc&&u.disp.activo&&u.disp.dias.includes(dia)&&u.disp.franjas.includes(franja));
+}
+function activas(uidv){return S.requests.filter(r=>r.userId===uidv&&['Pendiente','Aceptada'].includes(r.estado)).length}
+function cargaDia(rid,fecha){return S.requests.filter(r=>r.recicladorId===rid&&r.estado==='Aceptada'&&r.fecha===fecha).length}
+function vencer(){
+  let ch=false;
+  S.requests.forEach(r=>{
+    if(r.estado!=='Pendiente')return;
+    const cand=disponibles(r.loc,r.fecha,r.franja);
+    if(r.vence<Date.now()){r.estado='Sin atender';r.motivo='Venció el plazo de '+HORAS_VENCE+' h sin que una organización la aceptara.';ch=true}
+    else if(cand.length&&cand.every(c=>r.rechazos.includes(c.id))){r.estado='Sin atender';r.motivo='Todas las organizaciones disponibles de la localidad la rechazaron.';ch=true}
+  });
+  if(ch)save();
+}
+
+/* ===================== Componentes ===================== */
+function mapSVG(pts,sel){
+  const pins = pts.map(p=>`<g class="pin ${sel===p.id?'sel':''}" data-act="selpoint" data-id="${p.id}" transform="translate(${p.x},${p.y})"><title>${esc(p.nombre)}</title><path d="M0 0c-9-12-14-17-14-24a14 14 0 0 1 28 0c0 7-5 12-14 24z"/><circle cy="-24" r="5"/></g>`).join('');
+  return `<svg class="map" viewBox="0 0 360 240" role="img" aria-label="Mapa esquemático de puntos de reciclaje">
+  <rect class="m-bg" width="360" height="240"/>
+  <ellipse class="m-park" cx="300" cy="200" rx="46" ry="26"/>
+  <g class="m-r1"><path d="M0 60 L360 90"/><path d="M0 170 L360 150"/><path d="M80 0 L110 240"/><path d="M220 0 L200 240"/></g>
+  <g class="m-r2"><path d="M0 120 L360 125"/><path d="M290 0 L300 240"/><path d="M0 215 L360 210"/></g>
+  <text class="m-tx" x="8" y="232">Mapa esquemático (prototipo)</text>${pins}</svg>`;
+}
+const tag = e=>`<span class="tag t-${e==='Sin atender'?'Sin':e}">${esc(e)}</span>`;
+function chips(list,cur,act,all){return `<div class="chips">${all?`<span class="chip ${cur===''?'on':''}" data-act="${act}" data-v="">${all}</span>`:''}${list.map(x=>`<span class="chip ${cur===x?'on':''}" data-act="${act}" data-v="${esc(x)}">${esc(x)}</span>`).join('')}</div>`}
+function repForm(){if(!ui.reporting)return '';const r=S.requests.find(x=>x.id===ui.reporting);const u=me();return `<form data-form="reporte" class="card"><b>Reportar ${u.rol==='reciclador'?'solicitud sospechosa':'problema con la recolección'}</b><div class="muted">${esc(r.material)} · ${esc(r.direccion)}</div><label for="motivo">¿Qué ocurrió?</label><textarea id="motivo" name="motivo" rows="3" maxlength="200" required></textarea><div class="row" style="margin-top:10px"><button class="btn sm">Enviar reporte</button><button type="button" class="btn sm sec" data-act="repcancel">Cancelar</button></div></form>`}
+function msgBox(){if(ui.reporting)return repForm();if(!ui.msg)return '';const m=ui.msg;ui.msg=null;return `<div class="alert ${m.t}">${m.x}</div>`}
+
+/* ===================== Vistas ===================== */
+function vLogin(){
+  const reg = ui.modo==='registro';
+  return `<div class="brand"><div class="logo">♻️</div><h1>RecicloBogotá</h1><div class="muted">Reciclaje coordinado por localidad</div></div>
+  <main>${msgBox()}
+  <div class="alert wa">Prototipo funcional con datos de ejemplo. Localidad del piloto propuesta: <b>${PILOTO}</b>.</div>
+  ${reg?`<form data-form="register" class="card"><h2>Crear cuenta</h2>
+    <label>Tipo de usuario</label><select name="rol" data-change="regRol"><option value="ciudadano" ${ui.regRol==='ciudadano'?'selected':''}>Ciudadano, conjunto o comercio</option><option value="reciclador" ${ui.regRol==='reciclador'?'selected':''}>Reciclador de oficio u organización</option></select>
+    <label>${ui.regRol==='reciclador'?'Nombre de la organización o reciclador':'Nombre completo o del conjunto'}</label><input name="nombre" required maxlength="60">
+    ${ui.regRol==='ciudadano'?`<label>Tipo de generador</label><select name="tipoGen"><option>Ciudadano</option><option>Conjunto residencial</option><option>Comercio</option><option>Empresa</option></select>`:''}
+    <label>Correo electrónico</label><input name="email" type="email" required>
+    <label>Contraseña (mínimo 6 caracteres)</label><input name="pass" type="password" minlength="6" required>
+    <label>Localidad</label><select name="loc">${LOCALIDADES.map(l=>`<option>${l}</option>`).join('')}</select>
+    <label class="chk"><input type="checkbox" name="ok" required><span>Acepto la política de tratamiento de datos personales (Ley 1581 de 2012).</span></label>
+    <details><summary>Ver aviso de privacidad</summary><p class="muted">Solo se recogen los datos necesarios (nombre, correo, localidad y dirección de la solicitud) para coordinar recolecciones de material aprovechable. No se venden ni se comparten con terceros. Puedes pedir su corrección o eliminación en cualquier momento.</p></details>
+    <button class="btn full">Registrarme</button>
+    <p class="muted" style="text-align:center">¿Ya tienes cuenta? <a href="#" data-act="modo" data-v="login">Inicia sesión</a></p></form>`
+  :`<form data-form="login" class="card"><h2>Iniciar sesión</h2>
+    <label for="l-email">Correo electrónico</label><input id="l-email" name="email" type="email" required>
+    <label>Contraseña</label><input name="pass" type="password" required>
+    <button class="btn full">Entrar</button>
+    <p class="muted" style="text-align:center">¿No tienes cuenta? <a href="#" data-act="modo" data-v="registro">Regístrate</a></p></form>
+  <div class="card"><b>Cuentas de prueba</b>
+    <table><tr><td>Ciudadano</td><td>laura@demo.co</td><td>demo123</td></tr><tr><td>Conjunto</td><td>pinos@demo.co</td><td>demo123</td></tr><tr><td>Reciclador</td><td>eco@demo.co</td><td>demo123</td></tr><tr><td>Reciclador (sin verificar)</td><td>unidos@demo.co</td><td>demo123</td></tr><tr><td>Administrador</td><td>admin@demo.co</td><td>admin123</td></tr></table></div>`}
+  </main>`;
+}
+
+function vInicio(u){
+  const mias = S.requests.filter(r=>r.userId===u.id);
+  const act = mias.filter(r=>['Pendiente','Aceptada'].includes(r.estado)).length;
+  const g = GUIAS[ui.guia];
+  return `<main>${msgBox()}
+  <h2>Hola, ${esc(u.nombre.split(' ')[0])} 👋</h2>
+  <div class="kpis"><div class="kpi"><b>${act}</b><span class="muted">solicitudes activas</span></div><div class="kpi"><b>${mias.filter(r=>r.estado==='Completada').reduce((a,r)=>a+(+r.kg||0),0)} kg</b><span class="muted">entregados</span></div></div>
+  <div class="row"><button class="btn" data-act="tab" data-v="solicitar" style="flex:1">+ Solicitar recolección</button><button class="btn sec" data-act="tab" data-v="puntos" style="flex:1">Ver puntos</button></div>
+  <h3>Guía de separación en la fuente</h3>
+  <div class="chips">${Object.entries(GUIAS).map(([k,v])=>`<span class="chip ${ui.guia===k?'on':''}" data-act="guia" data-v="${k}">${k[0].toUpperCase()+k.slice(1)}</span>`).join('')}</div>
+  <div class="card" style="border-left:6px solid ${g.c}"><b>${g.t}</b><p style="margin:6px 0">${g.txt}</p><div class="muted">Ejemplos: ${g.ej.join(', ')}.</div></div>
+  <div class="alert in">Tu localidad: <b>${esc(u.loc)}</b>. ${u.loc===PILOTO?'Es la localidad del piloto.':'Cobertura de información disponible; la coordinación de recolecciones depende de las organizaciones registradas.'}</div></main>`;
+}
+
+function vPuntos(){
+  const pts = PUNTOS.filter(p=>p.loc===ui.loc&&(!ui.mat||p.mats.includes(ui.mat)));
+  const s = ui.sel&&pts.find(p=>p.id===ui.sel);
+  return `<main>${msgBox()}<h2>Puntos de reciclaje</h2>
+  <label>Localidad</label><select data-change="loc">${LOCALIDADES.map(l=>`<option ${l===ui.loc?'selected':''}>${l}</option>`).join('')}</select>
+  <label>Material</label>${chips(MATERIALES,ui.mat,'mat','Todos')}
+  ${mapSVG(pts,ui.sel)}
+  ${s?`<div class="card" style="margin-top:10px;border-left:6px solid var(--sel)"><b>${esc(s.nombre)}</b><div class="muted">${esc(s.dir)} · ${esc(s.hor)}</div><div style="margin-top:4px">${s.mats.map(m=>`<span class="tag t-Aceptada" style="margin-right:4px">${esc(m)}</span>`).join('')}</div></div>`:`<p class="muted">Toca un marcador del mapa para ver el detalle.</p>`}
+  <h3>${pts.length} punto(s) en ${esc(ui.loc)}</h3>
+  ${pts.length?pts.map(p=>`<div class="card" data-act="selpoint" data-id="${p.id}" style="cursor:pointer"><b>${esc(p.nombre)}</b><div class="muted">${esc(p.dir)} · ${esc(p.hor)}</div></div>`).join(''):'<div class="alert wa">No hay puntos para ese material en esta localidad.</div>'}
+  <p class="muted">Datos de ejemplo. En el piloto se cargarán desde Datos Abiertos Bogotá y captura manual verificada.</p></main>`;
+}
+
+function vSolicitar(u){
+  const p = ui.prefill||{};
+  const f = p.fecha||fch(1);
+  const fr = p.franja||'Mañana';
+  const loc = p.loc||u.loc;
+  const disp = disponibles(loc,f,fr);
+  return `<main>${msgBox()}<h2>Solicitar recolección</h2>
+  <div class="muted">Activas: ${activas(u.id)} de ${MAX_ACTIVAS} permitidas.</div>
+  <form data-form="solicitud" class="card" data-change-form="1">
+  <label>Material</label><select name="material">${MATERIALES.map(m=>`<option ${p.material===m?'selected':''}>${m}</option>`).join('')}</select>
+  <label>Cantidad aproximada (kg)</label><input name="cantidad" type="number" min="1" max="500" value="${esc(p.cantidad||'')}" required>
+  <label>Localidad</label><select name="loc" data-change="solLoc">${LOCALIDADES.map(l=>`<option ${l===loc?'selected':''}>${l}</option>`).join('')}</select>
+  <label>Dirección de recolección</label><input name="direccion" maxlength="80" value="${esc(p.direccion||'')}" placeholder="Ej.: Calle 39 # 24-10, portería" required>
+  <label>Fecha</label><input name="fecha" type="date" min="${fch(0)}" max="${fch(14)}" value="${f}" data-change="solFecha" required>
+  <label>Franja</label><select name="franja" data-change="solFecha">${FRANJAS.map(x=>`<option ${x===fr?'selected':''}>${x}</option>`).join('')}</select>
+  ${disp.length?`<div class="alert ok">✔ ${disp.length} organización(es) verificada(s) disponible(s) en ${esc(loc)} ese día y franja.</div>`
+  :`<div class="alert wa">No hay organizaciones disponibles para esa fecha y franja. Puedes cambiar la fecha, enviar la solicitud (quedará pendiente ${HORAS_VENCE} h) o <a href="#" data-act="tab" data-v="puntos">llevar el material a un punto de entrega</a>.</div>`}
+  <button class="btn full">Enviar solicitud</button></form></main>`;
+}
+
+function vMis(u){
+  vencer();
+  const rs = S.requests.filter(r=>r.userId===u.id).sort((a,b)=>b.creada-a.creada);
+  return `<main>${msgBox()}<h2>Mis solicitudes</h2>
+  ${rs.length?rs.map(r=>{
+    const org = r.recicladorId?user(r.recicladorId):null;
+    return `<div class="card"><div class="row"><b>${esc(r.material)} · ${esc(r.cantidad)} kg</b>${tag(r.estado)}</div>
+    <div class="muted">${esc(r.direccion)} (${esc(r.loc)})<br>${fmtF(r.fecha)} · ${esc(r.franja)}${org?`<br>Organización: <b>${esc(org.nombre)}</b>`:''}${r.estado==='Completada'?`<br>Recogido: <b>${esc(r.kg)} kg</b>`:''}</div>
+    ${r.estado==='Sin atender'?`<div class="alert wa">${esc(r.motivo)} Puedes reprogramarla o llevar el material a un punto de entrega.</div><div class="row"><button class="btn sm" data-act="repub" data-id="${r.id}">Reprogramar</button><button class="btn sm sec" data-act="verpuntos" data-id="${r.id}">Ver puntos de entrega</button></div>`:''}
+    ${r.estado==='Pendiente'?`<button class="btn sm warn" data-act="cancelar" data-id="${r.id}">Cancelar</button>`:''}
+    ${r.estado==='Aceptada'?`<div class="row"><button class="btn sm warn" data-act="cancelar" data-id="${r.id}">Cancelar</button><button class="btn sm sec" data-act="reportar" data-id="${r.id}">Reportar problema</button></div>`:''}
+    </div>`}).join(''):'<div class="alert in">Aún no tienes solicitudes.</div>'}</main>`;
+}
+
+function vDisp(u){
+  const d = u.disp;
+  return `<main>${msgBox()}<h2>Mi disponibilidad</h2>
+  ${!u.verificado?'<div class="alert wa">Tu organización está pendiente de verificación por el administrador. Hasta entonces no recibirás solicitudes.</div>':'<div class="alert ok">Organización verificada.</div>'}
+  <form data-form="disp" class="card">
+  <label class="chk"><input type="checkbox" name="activo" ${d.activo?'checked':''}><span>Estoy recibiendo solicitudes</span></label>
+  <label>Días de recolección</label><div class="chips">${DIAS.map((x,i)=>`<label class="chip ${d.dias.includes(i)?'on':''}" style="margin:0"><input type="checkbox" name="dia" value="${i}" ${d.dias.includes(i)?'checked':''} hidden>${x}</label>`).join('')}</div>
+  <label>Franjas</label>${FRANJAS.map(x=>`<label class="chk"><input type="checkbox" name="franja" value="${x}" ${d.franjas.includes(x)?'checked':''}><span>${x}</span></label>`).join('')}
+  <label>Capacidad: recolecciones máximas por día</label><input name="capacidad" type="number" min="1" max="20" value="${d.capacidad}">
+  <button class="btn full">Guardar disponibilidad</button></form></main>`;
+}
+
+function vSolRec(u){
+  vencer();
+  const disp = S.requests.filter(r=>r.estado==='Pendiente'&&r.loc===u.loc&&!r.rechazos.includes(u.id)&&u.verificado&&u.disp.activo&&u.disp.dias.includes(new Date(r.fecha+'T12:00').getDay())&&u.disp.franjas.includes(r.franja));
+  const mias = S.requests.filter(r=>r.recicladorId===u.id&&r.estado==='Aceptada').sort((a,b)=>a.fecha.localeCompare(b.fecha));
+  return `<main>${msgBox()}<h2>Solicitudes</h2>
+  <h3>Disponibles en ${esc(u.loc)} (${disp.length})</h3>
+  ${disp.length?disp.map(r=>`<div class="card"><div class="row"><b>${esc(r.material)} · ${esc(r.cantidad)} kg</b>${tag(r.estado)}</div>
+   <div class="muted">${esc(user(r.userId).nombre)} (${esc(user(r.userId).tipoGen||'')})<br>${esc(r.direccion)}<br>${fmtF(r.fecha)} · ${esc(r.franja)}</div>
+   <div class="row" style="margin-top:8px"><button class="btn sm" data-act="aceptar" data-id="${r.id}">Aceptar</button><button class="btn sm warn" data-act="rechazar" data-id="${r.id}">Rechazar</button><button class="btn sm sec" data-act="reportar" data-id="${r.id}">Reportar</button></div></div>`).join(''):'<div class="alert in">No hay solicitudes nuevas que coincidan con tu disponibilidad.</div>'}
+  <h3>Aceptadas por mí (${mias.length})</h3>
+  ${mias.map(r=>`<div class="card"><div class="row"><b>${esc(r.material)} · ${esc(r.cantidad)} kg</b>${tag(r.estado)}</div>
+   <div class="muted">${esc(user(r.userId).nombre)} · ${esc(r.direccion)}<br>${fmtF(r.fecha)} · ${esc(r.franja)}</div>
+   <form data-form="completar" data-id="${r.id}" class="row" style="margin-top:8px"><input name="kg" type="number" min="1" max="1000" placeholder="kg recogidos" style="flex:1" required><button class="btn sm">Marcar completada</button></form></div>`).join('')||'<p class="muted">Aún no has aceptado solicitudes.</p>'}</main>`;
+}
+
+function vHist(u){
+  const rs = S.requests.filter(r=>r.recicladorId===u.id&&r.estado==='Completada');
+  return `<main><h2>Historial</h2><div class="kpis"><div class="kpi"><b>${rs.length}</b><span class="muted">recolecciones</span></div><div class="kpi"><b>${rs.reduce((a,r)=>a+(+r.kg||0),0)} kg</b><span class="muted">recuperados</span></div></div>
+  ${rs.map(r=>`<div class="card"><b>${esc(r.material)} · ${esc(r.kg)} kg</b><div class="muted">${esc(user(r.userId).nombre)} · ${fmtF(r.fecha)}</div></div>`).join('')||'<div class="alert in">Sin recolecciones completadas todavía.</div>'}</main>`;
+}
+
+function vAdmin(){
+  vencer();
+  const R = S.requests, comp = R.filter(r=>r.estado==='Completada');
+  const kgT = comp.reduce((a,r)=>a+(+r.kg||0),0);
+  const estados = ['Pendiente','Aceptada','Completada','Sin atender','Cancelada'];
+  const porLoc = LOCALIDADES.map(l=>({l,n:R.filter(r=>r.loc===l).length,kg:comp.filter(r=>r.loc===l).reduce((a,r)=>a+(+r.kg||0),0)}));
+  const maxKg = Math.max(1,...porLoc.map(x=>x.kg));
+  const porMat = MATERIALES.map(m=>({m,kg:comp.filter(r=>r.material===m).reduce((a,r)=>a+(+r.kg||0),0)}));
+  const maxM = Math.max(1,...porMat.map(x=>x.kg));
+  const orgs = S.users.filter(u=>u.rol==='reciclador');
+  if(ui.tab==='panel') return `<main>${msgBox()}<h2>Panel administrativo</h2>
+   <div class="kpis"><div class="kpi"><b>${S.users.filter(u=>u.rol==='ciudadano').length}</b><span class="muted">generadores</span></div><div class="kpi"><b>${orgs.filter(o=>o.verificado).length}/${orgs.length}</b><span class="muted">organizaciones verificadas</span></div><div class="kpi"><b>${R.length}</b><span class="muted">solicitudes</span></div><div class="kpi"><b>${kgT} kg</b><span class="muted">recuperados</span></div></div>
+   <div class="cols"><div class="card"><b>Solicitudes por estado</b><table>${estados.map(e=>`<tr><td>${tag(e)}</td><td>${R.filter(r=>r.estado===e).length}</td></tr>`).join('')}</table></div>
+   <div class="card"><b>Material recuperado por localidad</b>${porLoc.map(x=>`<div style="margin:8px 0"><div class="row"><span>${x.l}</span><span class="muted">${x.kg} kg · ${x.n} solic.</span></div><div class="bar"><i style="width:${x.kg/maxKg*100}%"></i></div></div>`).join('')}</div>
+   <div class="card"><b>Material recuperado por tipo</b>${porMat.map(x=>`<div style="margin:8px 0"><div class="row"><span>${x.m}</span><span class="muted">${x.kg} kg</span></div><div class="bar"><i style="width:${x.kg/maxM*100}%"></i></div></div>`).join('')}</div></div>
+   <p class="muted">Los cuatro registros completados iniciales son datos de ejemplo para la demostración.</p></main>`;
+  if(ui.tab==='usuarios') return `<main>${msgBox()}<h2>Usuarios y verificación</h2><div class="card"><div class="scroll"><table><tr><th>Nombre</th><th>Rol</th><th>Estado</th><th></th></tr>
+   ${S.users.filter(u=>u.rol!=='admin').map(u=>`<tr><td>${esc(u.nombre)}<div class="muted">${esc(u.email)} · ${esc(u.loc)}</div></td><td>${esc(u.rol)}</td><td>${u.bloqueado?'<span class="tag t-Bloqueado">Bloqueado</span>':u.rol==='reciclador'?(u.verificado?'<span class="tag t-Completada">Verificado</span>':'<span class="tag t-Pendiente">Por verificar</span>'):'<span class="tag t-Completada">Activo</span>'}</td>
+   <td>${u.rol==='reciclador'&&!u.verificado&&!u.bloqueado?`<button class="btn sm" data-act="verificar" data-id="${u.id}">Verificar</button> `:''}<button class="btn sm ${u.bloqueado?'sec':'warn'}" data-act="bloquear" data-id="${u.id}">${u.bloqueado?'Desbloquear':'Bloquear'}</button></td></tr>`).join('')}</table></div></div></main>`;
+  if(ui.tab==='reportes'){
+    const ab = S.reports.filter(x=>x.estado==='Abierto');
+    return `<main>${msgBox()}<h2>Reportes de mal uso (${ab.length} abiertos)</h2>
+    ${S.reports.length?S.reports.map(x=>{const r=S.requests.find(q=>q.id===x.requestId);return `<div class="card"><div class="row"><b>Solicitud ${esc(x.requestId)}</b><span class="tag ${x.estado==='Abierto'?'t-Pendiente':'t-Completada'}">${x.estado}</span></div>
+    <div class="muted">Reportó: ${esc(user(x.por).nombre)} · Sobre: ${esc(user(x.sobre).nombre)}<br>${r?esc(r.material)+' · '+esc(r.direccion):''}<br>Motivo: ${esc(x.motivo)}</div>
+    ${x.estado==='Abierto'?`<div class="row" style="margin-top:8px"><button class="btn sm warn" data-act="repblock" data-id="${x.id}">Bloquear a ${esc(user(x.sobre).nombre)}</button><button class="btn sm sec" data-act="repdesc" data-id="${x.id}">Descartar</button></div>`:''}</div>`}).join(''):'<div class="alert in">No hay reportes.</div>'}</main>`;
+  }
+  return `<main>${msgBox()}<h2>Herramientas de demostración</h2>
+  <div class="card"><b>Simular el paso de ${HORAS_VENCE} horas</b><p class="muted">Las solicitudes pendientes pasan a «Sin atender» y el generador puede reprogramarlas o ver puntos de entrega.</p><button class="btn sm" data-act="simvence">Simular vencimiento</button></div>
+  <div class="card"><b>Reiniciar datos de ejemplo</b><p class="muted">Borra los cambios hechos en este navegador.</p><button class="btn sm warn" data-act="reset">Reiniciar</button></div></main>`;
+}
+
+/* ===================== Render ===================== */
+const NAVS = {
+  ciudadano:[['inicio','🏠','Inicio'],['puntos','📍','Puntos'],['solicitar','➕','Solicitar'],['mis','📋','Mis solicitudes']],
+  reciclador:[['disp','🗓️','Disponibilidad'],['solrec','📥','Solicitudes'],['hist','✅','Historial']],
+  admin:[['panel','📊','Panel'],['usuarios','👥','Usuarios'],['reportes','🚩','Reportes'],['herr','🛠️','Herramientas']]
+};
+const FIRST = {ciudadano:'inicio',reciclador:'solrec',admin:'panel'};
+
+function render(){
+  const app = document.getElementById('app'), nav = document.getElementById('nav');
+  const u = me();
+  if(!u){app.className='';app.innerHTML=vLogin();nav.hidden=true;return}
+  app.className = u.rol==='admin'?'wide':'';
+  const views = {inicio:()=>vInicio(u),puntos:vPuntos,solicitar:()=>vSolicitar(u),mis:()=>vMis(u),disp:()=>vDisp(u),solrec:()=>vSolRec(u),hist:()=>vHist(u),panel:vAdmin,usuarios:vAdmin,reportes:vAdmin,herr:vAdmin};
+  if(!NAVS[u.rol].some(n=>n[0]===ui.tab))ui.tab=FIRST[u.rol];
+  const rolTxt = {ciudadano:u.tipoGen||'Ciudadano',reciclador:'Reciclador de oficio',admin:'Administrador'}[u.rol];
+  app.innerHTML = `<header class="top"><div><h1>♻️ RecicloBogotá</h1><small>${esc(u.nombre)} · ${esc(rolTxt)}</small></div><button data-act="logout">Salir</button></header><div class="banner">Prototipo con datos de ejemplo · Piloto propuesto: ${PILOTO}</div>${views[ui.tab]()}`;
+  nav.hidden = false;
+  document.getElementById('navin').innerHTML = NAVS[u.rol].map(n=>`<button class="${ui.tab===n[0]?'on':''}" data-act="tab" data-v="${n[0]}"><b>${n[1]}</b>${n[2]}</button>`).join('');
+  window.scrollTo(0,0);
+}
+
+/* ===================== Eventos ===================== */
+const ACT = {
+  modo:v=>{ui.modo=v},
+  tab:v=>{ui.tab=v;if(v==='solicitar'&&!ui.keep)ui.prefill=null;ui.keep=false},
+  guia:v=>{ui.guia=v},
+  mat:v=>{ui.mat=v;ui.sel=null},
+  selpoint:(v,el)=>{ui.sel=el.dataset.id},
+  logout:()=>{S.session=null;save();ui.modo='login'},
+  cancelar:(v,el)=>{const r=S.requests.find(x=>x.id===el.dataset.id);r.estado='Cancelada';r.recicladorId=r.recicladorId;save();ui.msg={t:'ok',x:'Solicitud cancelada.'}},
+  repub:(v,el)=>{const r=S.requests.find(x=>x.id===el.dataset.id);ui.prefill={material:r.material,cantidad:r.cantidad,direccion:r.direccion,loc:r.loc,fecha:fch(2),franja:r.franja};ui.keep=true;ui.tab='solicitar'},
+  verpuntos:(v,el)=>{const r=S.requests.find(x=>x.id===el.dataset.id);ui.loc=r.loc;ui.mat=r.material;ui.sel=null;ui.tab='puntos'},
+  aceptar:(v,el)=>{const u=me(),r=S.requests.find(x=>x.id===el.dataset.id);
+    if(cargaDia(u.id,r.fecha)>=u.disp.capacidad){ui.msg={t:'er',x:'Alcanzaste tu capacidad máxima para ese día. Ajusta tu capacidad o rechaza la solicitud.'};return}
+    r.estado='Aceptada';r.recicladorId=u.id;save();ui.msg={t:'ok',x:'Solicitud aceptada. El generador verá tu organización.'}},
+  rechazar:(v,el)=>{const u=me(),r=S.requests.find(x=>x.id===el.dataset.id);r.rechazos.push(u.id);save();vencer();ui.msg={t:'in',x:'Solicitud rechazada. Si todas las organizaciones disponibles la rechazan, el generador será informado.'}},
+  reportar:(v,el)=>{const u=me(),r=S.requests.find(x=>x.id===el.dataset.id);
+    const sobre = u.rol==='reciclador'?r.userId:(r.recicladorId||null);
+    if(!sobre){ui.msg={t:'er',x:'Solo se puede reportar una solicitud con organización asignada.'};return}
+    ui.reporting=r.id},
+  repcancel:()=>{ui.reporting=null},
+  verificar:(v,el)=>{user(el.dataset.id).verificado=true;save();ui.msg={t:'ok',x:'Organización verificada.'}},
+  bloquear:(v,el)=>{const x=user(el.dataset.id);x.bloqueado=!x.bloqueado;save();ui.msg={t:x.bloqueado?'er':'ok',x:x.bloqueado?'Usuario bloqueado.':'Usuario desbloqueado.'}},
+  repblock:(v,el)=>{const x=S.reports.find(q=>q.id===el.dataset.id);user(x.sobre).bloqueado=true;x.estado='Resuelto';save();ui.msg={t:'er',x:'Usuario bloqueado y reporte resuelto.'}},
+  repdesc:(v,el)=>{S.reports.find(q=>q.id===el.dataset.id).estado='Resuelto';save();ui.msg={t:'in',x:'Reporte descartado.'}},
+  simvence:()=>{S.requests.forEach(r=>{if(r.estado==='Pendiente')r.vence=Date.now()-1});save();vencer();ui.msg={t:'ok',x:'Se simularon '+HORAS_VENCE+' horas. Revisa las solicitudes «Sin atender».'}},
+  reset:()=>{localStorage.removeItem(LS);S=seed();ui.tab='inicio';ui.modo='login'}
+};
+const FORMS = {
+  login(f){const u=S.users.find(x=>x.email===f.email.trim().toLowerCase()&&x.pass===f.pass);
+    if(!u){ui.msg={t:'er',x:'Correo o contraseña incorrectos.'};return}
+    if(u.bloqueado){ui.msg={t:'er',x:'Tu cuenta está bloqueada. Contacta al administrador.'};return}
+    S.session=u.id;save();ui.tab=FIRST[u.rol];ui.loc=u.loc},
+  register(f){const email=f.email.trim().toLowerCase();
+    if(S.users.some(x=>x.email===email)){ui.msg={t:'er',x:'Ya existe una cuenta con ese correo.'};return}
+    const n={id:uid('u'),nombre:f.nombre.trim(),email,pass:f.pass,rol:f.rol,loc:f.loc,verificado:f.rol==='ciudadano',bloqueado:false};
+    if(f.rol==='ciudadano')n.tipoGen=f.tipoGen;else n.disp={dias:[1,2,3,4,5],franjas:['Mañana','Tarde'],capacidad:3,activo:true};
+    S.users.push(n);S.session=n.id;save();ui.tab=FIRST[n.rol];ui.loc=n.loc;
+    ui.msg={t:'ok',x:n.rol==='reciclador'?'Cuenta creada. Un administrador debe verificar tu organización.':'Cuenta creada. ¡Bienvenido!'}},
+  solicitud(f){const u=me();
+    if(activas(u.id)>=MAX_ACTIVAS){ui.msg={t:'er',x:'Alcanzaste el máximo de '+MAX_ACTIVAS+' solicitudes activas. Espera a que se atiendan o cancela alguna.'};return}
+    if(f.fecha<fch(0)){ui.msg={t:'er',x:'La fecha no puede ser anterior a hoy.'};return}
+    S.requests.push({id:uid('r'),userId:u.id,material:f.material,cantidad:+f.cantidad,kg:null,direccion:f.direccion.trim(),loc:f.loc,fecha:f.fecha,franja:f.franja,estado:'Pendiente',recicladorId:null,creada:Date.now(),vence:Date.now()+HORAS_VENCE*36e5,rechazos:[],motivo:''});
+    save();ui.prefill=null;ui.tab='mis';ui.msg={t:'ok',x:'Solicitud enviada. Las organizaciones disponibles la verán de inmediato.'}},
+  disp(f,fd){const u=me();u.disp={activo:!!f.activo,dias:fd.getAll('dia').map(Number),franjas:fd.getAll('franja'),capacidad:Math.max(1,+f.capacidad||1)};
+    save();ui.msg={t:'ok',x:'Disponibilidad guardada.'}},
+  reporte(f){const u=me(),r=S.requests.find(x=>x.id===ui.reporting);const sobre=u.rol==='reciclador'?r.userId:r.recicladorId;S.reports.push({id:uid('x'),requestId:r.id,por:u.id,sobre,motivo:f.motivo.slice(0,200),estado:'Abierto'});ui.reporting=null;save();ui.msg={t:'ok',x:'Reporte enviado al administrador.'}},
+  completar(f,fd,el){const r=S.requests.find(x=>x.id===el.dataset.id);r.estado='Completada';r.kg=+f.kg;save();ui.msg={t:'ok',x:'Recolección registrada: '+r.kg+' kg.'}}
+};
+
+document.addEventListener('click',e=>{
+  const el=e.target.closest('[data-act]');if(!el)return;
+  e.preventDefault();
+  const fn=ACT[el.dataset.act];if(fn){fn(el.dataset.v,el);render()}
+});
+document.addEventListener('submit',e=>{
+  const el=e.target.closest('[data-form]');if(!el)return;
+  e.preventDefault();
+  const fd=new FormData(el),f=Object.fromEntries(fd.entries());
+  FORMS[el.dataset.form](f,fd,el);render();
+});
+document.addEventListener('change',e=>{
+  const el=e.target;
+  if(el.type==='checkbox'&&el.name==='dia'){el.closest('label').classList.toggle('on',el.checked);return}
+  const k=el.dataset&&el.dataset.change;if(!k)return;
+  if(k==='regRol'){ui.regRol=el.value;render()}
+  else if(k==='loc'){ui.loc=el.value;ui.sel=null;render()}
+  else if(k==='solLoc'||k==='solFecha'){
+    const form=el.closest('form'),fd=Object.fromEntries(new FormData(form).entries());
+    ui.prefill={material:fd.material,cantidad:fd.cantidad,direccion:fd.direccion,loc:fd.loc,fecha:fd.fecha,franja:fd.franja};ui.keep=true;render();
+  }
+});
+
+/* Manifest en tiempo de ejecución (instalable como PWA cuando se despliegue con HTTPS) */
+
+vencer();render();
+window.__rb={get S(){return S},ui,render,ACT,FORMS};
+</script>
+</body>
+</html>
